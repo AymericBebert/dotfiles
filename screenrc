@@ -1,0 +1,33 @@
+startup_message off
+vbell off
+
+# Enable 256 color term
+term xterm-256color
+
+# Erase background with current bg color
+defbce "on"
+
+# Allow bold colors - necessary for some reason
+attrcolor b ".I"
+
+# Cache 30000 lines for scroll back
+defscrollback 30000
+
+# Tell screen how to set colors. AB = background, AF=foreground
+termcapinfo xterm "Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm"
+
+# Enables use of shift-PgUp and shift-PgDn
+termcapinfo xterm|xterms|xs|rxvt ti@:te@
+
+# Hardstatus content
+hardstatus string "%{= KG}%H %{= KW} | %{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %D %d %M %Y%{= Kc} %c%{-}"
+hardstatus alwayslastline
+
+# Hide hardstatus: ctrl-a f
+bind f eval "hardstatus ignore"
+# Show hardstatus: ctrl-a F
+bind F eval "hardstatus alwayslastline"
+
+# Windows at startup
+screen -t zsh 0 zsh
+select 0
