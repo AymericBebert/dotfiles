@@ -1,5 +1,13 @@
 export TERM="xterm-256color"
 
+#zmodload zsh/zprof # top of your .zshrc file
+
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/bin:$PATH
@@ -83,7 +91,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git screen zsh-completions zsh-syntax-highlighting)# vagrant knife kitchen)
+plugins=(git screen zsh-completions zsh-syntax-highlighting docker docker-compose)# vagrant knife kitchen)
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
 source $ZSH/oh-my-zsh.sh
@@ -117,3 +125,62 @@ source ~/.zsh.d/zshrc
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+export EDITOR=vim
+
+alias ll='ls -l'
+alias lla='ls -la'
+alias s='cd ..'
+
+alias df='df -h'
+alias du='du -h'
+alias rm='rm -i'
+
+eval $(thefuck --alias)
+alias f=fuck
+
+eval "$(direnv hook zsh)"
+
+# Node Version Manager (with lazy loading)
+export NVM_DIR="/Users/aymeric/.nvm"
+
+function _load_nvm() {
+  echo "🚨 NVM not loaded! Loading now..."
+  unset -f nvm npm node ng npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  nvmrc=$(grep -E '^v?[0-9.]+' .nvmrc 2>/dev/null)
+  [ ! -z "$nvmrc" ] && nvm use $nvmrc
+  "$@"
+}
+
+function nvm() {
+    _load_nvm nvm "$@"
+}
+
+function npm() {
+    _load_nvm npm "$@"
+}
+
+function node() {
+    _load_nvm node "$@"
+}
+
+function ng() {
+    _load_nvm ng "$@"
+}
+
+function npx() {
+    _load_nvm npx "$@"
+}
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ]; then source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'; fi
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ]; then source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'; fi
+
+# JAVA init
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+export PATH=$HOME/bin/apache-maven-3.6.3/bin:$PATH
+
+#zprof # bottom of .zshrc
